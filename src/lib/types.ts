@@ -24,7 +24,10 @@ export type OrderItem = Product & {
   quantity: number
 }
 
+export type PaymentMethod = "cash" | "debit card" | "e-wallet"
+
 export type Order = {
   id: number
   items: OrderItem[]
+  paymentMethod: PaymentMethod
 }

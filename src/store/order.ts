@@ -1,6 +1,6 @@
 import { create } from "zustand"
 
-import { Order, Product } from "@/lib/types"
+import { Order, PaymentMethod, Product } from "@/lib/types"
 
 type OrderState = {
   order: Order
@@ -12,6 +12,7 @@ type OrderActions = {
     removeItem: (id: Product["id"]) => void
     increaseItemQuantity: (id: Product["id"]) => void
     decreaseItemQuantity: (id: Product["id"]) => void
+    changePaymentMethod: (paymentMethod: PaymentMethod) => void
   }
 }
 
@@ -19,6 +20,7 @@ const initialState: OrderState = {
   order: {
     id: 1,
     items: [],
+    paymentMethod: "cash",
   },
 }
 
@@ -71,6 +73,8 @@ const orderStore = create<OrderState & OrderActions>()((set) => ({
           }),
         },
       })),
+    changePaymentMethod: (paymentMethod) =>
+      set((state) => ({ order: { ...state.order, paymentMethod } })),
   },
 }))
 

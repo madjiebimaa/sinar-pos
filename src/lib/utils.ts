@@ -72,3 +72,9 @@ export function getTotalCategoryItems(
     return accumulator
   }, 0)
 }
+
+export function getOrderTotal(items: Order["items"]): number {
+  return items.reduce((accumulator, item) => {
+    return accumulator + item.price * item.quantity
+  }, 0)
+}
