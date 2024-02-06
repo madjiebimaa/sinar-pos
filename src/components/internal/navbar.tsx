@@ -15,7 +15,7 @@ export default function Navbar() {
         className="shrink-0 h-fit w-fit p-0 hover:bg-transparent hover:opacity-50"
         onClick={() => layoutActions.toggleSidebarOpen()}
       >
-        <Menu className="shrink-0 h-6 w-6 text-slate-950" />
+        <Menu className="shrink-0 h-6 w-6 text-white" />
       </Button>
     </nav>
   )
