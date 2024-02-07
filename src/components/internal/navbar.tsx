@@ -3,6 +3,7 @@
 import { Menu } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+
 import { useLayoutActions } from "@/store/layout"
 
 export default function Navbar() {

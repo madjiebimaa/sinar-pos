@@ -4,6 +4,7 @@ import { Order, PaymentMethod, Product } from "@/lib/types"
 
 type OrderState = {
   order: Order
+  orders: Order[]
 }
 
 type OrderActions = {
@@ -13,6 +14,10 @@ type OrderActions = {
     increaseItemQuantity: (id: Product["id"]) => void
     decreaseItemQuantity: (id: Product["id"]) => void
     changePaymentMethod: (paymentMethod: PaymentMethod) => void
+    addOrder: () => void
+    deleteOrder: (id: Order["id"]) => void
+    updateOrder: (id: Order["id"], fields: Omit<Order, "id">) => void
+    toggleShipOrder: (id: Order["id"]) => void
   }
 }
 
@@ -21,7 +26,9 @@ const initialState: OrderState = {
     id: 1,
     items: [],
     paymentMethod: "cash",
+    isShipped: false,
   },
+  orders: [],
 }
 
 const orderStore = create<OrderState & OrderActions>()((set) => ({
@@ -75,8 +82,44 @@ const orderStore = create<OrderState & OrderActions>()((set) => ({
       })),
     changePaymentMethod: (paymentMethod) =>
       set((state) => ({ order: { ...state.order, paymentMethod } })),
+    addOrder: () =>
+      set((state) => ({
+        orders: [...state.orders, state.order],
+        order: initialState.order,
+      })),
+    deleteOrder: (id) =>
+      set((state) => ({
+        orders: state.orders.filter((order) => order.id !== id),
+      })),
+    updateOrder: (id, fields) =>
+      set((state) => ({
+        orders: state.orders.map((order) => {
+          if (order.id === id) {
+            return {
+              ...order,
+              ...fields,
+            }
+          }
+
+          return order
+        }),
+      })),
+    toggleShipOrder: (id) =>
+      set((state) => ({
+        orders: state.orders.map((order) => {
+          if (order.id === id) {
+            return {
+              ...order,
+              isShipped: !order.isShipped,
+            }
+          }
+
+          return order
+        }),
+      })),
   },
 }))
 
 export const useOrder = () => orderStore((state) => state.order)
+export const useOrders = () => orderStore((state) => state.orders)
 export const useOrderActions = () => orderStore((state) => state.actions)

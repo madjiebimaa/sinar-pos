@@ -1,5 +1,15 @@
 import { clsx, type ClassValue } from "clsx"
-import { Bolt, Cuboid, Droplet, InspectionPanel, Zap } from "lucide-react"
+import {
+  Bolt,
+  CircleDollarSign,
+  CreditCard,
+  Cuboid,
+  Droplet,
+  InspectionPanel,
+  LucideIcon,
+  QrCode,
+  Zap,
+} from "lucide-react"
 import { twMerge } from "tailwind-merge"
 
 import { Category, CategoryStyle, Order } from "@/lib/types"
@@ -77,4 +87,15 @@ export function getOrderTotal(items: Order["items"]): number {
   return items.reduce((accumulator, item) => {
     return accumulator + item.price * item.quantity
   }, 0)
+}
+
+export function getOrderPaymentMethodIcon(paymentMethod: Order["paymentMethod"]): LucideIcon {
+  switch (paymentMethod) {
+    case "cash":
+      return CircleDollarSign
+    case "debit card":
+      return CreditCard
+    case "e-wallet":
+      return QrCode
+  }
 }

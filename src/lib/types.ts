@@ -30,4 +30,5 @@ export type Order = {
   id: number
   items: OrderItem[]
   paymentMethod: PaymentMethod
+  isShipped: boolean
 }

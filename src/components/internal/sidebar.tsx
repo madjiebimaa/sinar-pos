@@ -2,7 +2,7 @@
 
 import { BrickWall, X } from "lucide-react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 
@@ -11,12 +11,19 @@ import { useIsSidebarOpen, useLayoutActions } from "@/store/layout"
 
 const links: { href: string; label: string }[] = [
   { href: "/products", label: "Products" },
+  { href: "/orders", label: "Orders" },
 ]
 
 export default function Sidebar() {
   const pathname = usePathname()
+  const router = useRouter()
   const isSidebarOpen = useIsSidebarOpen()
   const layoutActions = useLayoutActions()
+
+  const goToPath = (href: string) => {
+    router.push(href)
+    layoutActions.toggleSidebarOpen()
+  }
 
   return (
     <aside
@@ -31,7 +38,7 @@ export default function Sidebar() {
           className="flex shrink-0 justify-center items-center px-2 hover:opacity-50"
         >
           <BrickWall className="shrink-0 h-6 w-6 text-white mr-1" />
-          <h1 className="font-bold text-lg text-white">SinarPOS</h1>
+          <h1 className="font-bold text-xl text-white">SinarPOS</h1>
         </Link>
         <Button
           variant="ghost"
@@ -45,15 +52,14 @@ export default function Sidebar() {
         {links.map((link) => (
           <Button
             key={link.href}
-            asChild
             variant="ghost"
             className={cn(
-              "justify-start font-semibold",
-              link.href === pathname &&
-                "bg-onyx hover:bg-onyx text-white hover:text-white hover:opacity-50"
+              "justify-start font-semibold text-white hover:text-white hover:bg-onyx",
+              link.href === pathname && "bg-onyx hover:opacity-50"
             )}
+            onClick={() => goToPath(link.href)}
           >
-            <Link href={link.href}>{link.label}</Link>
+            {link.label}
           </Button>
         ))}
       </section>
