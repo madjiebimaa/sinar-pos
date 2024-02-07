@@ -35,7 +35,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         isProductSelected && backgroundColor
       )}
     >
-      <CardContent className="flex flex-col justify-between h-[120px] p-2">
+      <CardContent className="flex flex-col justify-between h-[120px] p-4">
         <section className="flex flex-col gap-2">
           <div
             className={cn(

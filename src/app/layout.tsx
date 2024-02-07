@@ -1,3 +1,4 @@
+import { Toaster as Sonner } from "@/components/ui/sonner"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 
@@ -25,6 +26,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         {children}
+        <Sonner position="top-center" />
       </body>
     </html>
   )

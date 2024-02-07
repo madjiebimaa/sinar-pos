@@ -1,9 +1,12 @@
+"use client"
+
 import { Plus } from "lucide-react"
 import Link from "next/link"
 
 import OrderHeader from "@/components/order/order-header"
-import OrderList from "@/components/order/order-list"
+import OrderItemList from "@/components/order/order-item-list"
 import OrderTotal from "@/components/order/order-total"
+import PayButton from "@/components/order/pay-button"
 import { Button } from "@/components/ui/button"
 
 export default function Page() {
@@ -11,7 +14,7 @@ export default function Page() {
     <main className="flex flex-col min-h-screen max-h-screen">
       <OrderHeader />
       <div className="flex flex-col justify-between gap-4 h-[470px] p-4 overflow-hidden">
-        <OrderList />
+        <OrderItemList />
         <Button
           asChild
           variant="outline"
@@ -24,14 +27,9 @@ export default function Page() {
         </Button>
       </div>
       <OrderTotal />
-      <section className="z-10 absolute bottom-0 left-0 right-0 p-4 bg-woodsmoke">
-        <Button
-          asChild
-          className="w-full py-6 rounded-full font-medium bg-white text-woodsmoke"
-        >
-          <Link href="/products/order">To Pay</Link>
-        </Button>
-      </section>
+      <div className="z-10 absolute bottom-0 left-0 right-0 p-4 bg-woodsmoke">
+        <PayButton />
+      </div>
     </main>
   )
 }
