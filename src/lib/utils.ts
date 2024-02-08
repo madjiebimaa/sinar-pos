@@ -1,95 +1,47 @@
 import { clsx, type ClassValue } from "clsx"
 import {
   Bolt,
+  BrickWall,
   CircleDollarSign,
   CreditCard,
   Cuboid,
   Droplet,
   InspectionPanel,
   LucideIcon,
+  PaintRoller,
   QrCode,
   Zap,
 } from "lucide-react"
 import { twMerge } from "tailwind-merge"
 
-import { Category, CategoryStyle, Order } from "@/lib/types"
+import { Category, Order } from "@/lib/types"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-const categories: Map<Category["name"], CategoryStyle> = new Map([
-  [
-    "Concrete and Masonry",
-    {
-      icon: Cuboid,
-      textColor: "text-green-100",
-      backgroundColor: "bg-green-100",
-      borderColor: "border-green-100",
-    },
-  ],
-  [
-    "Fasteners and Hardware",
-    {
-      icon: Bolt,
-      textColor: "text-cyan-100",
-      backgroundColor: "bg-cyan-100",
-      borderColor: "border-cyan-100",
-    },
-  ],
-  [
-    "Flooring Materials",
-    {
-      icon: InspectionPanel,
-      textColor: "text-yellow-100",
-      backgroundColor: "bg-yellow-100",
-      borderColor: "border-yellow-100",
-    },
-  ],
-  [
-    "Plumbing Materials",
-    {
-      icon: Droplet,
-      textColor: "text-blue-100",
-      backgroundColor: "bg-blue-100",
-      borderColor: "border-blue-100",
-    },
-  ],
-  [
-    "Electrical Supplies",
-    {
-      icon: Zap,
-      textColor: "text-red-100",
-      backgroundColor: "bg-red-100",
-      borderColor: "border-red-100",
-    },
-  ],
-])
-
-export function getCategoryStyle(name: Category["name"]): CategoryStyle {
-  return categories.get(name)!
+export function getCategoryIcon(icon: string): LucideIcon {
+  switch (icon) {
+    case "InspectionPanel":
+      return InspectionPanel
+    case "Bolt":
+      return Bolt
+    case "Zap":
+      return Zap
+    case "Cuboid":
+      return Cuboid
+    case "PaintRoller":
+      return PaintRoller
+    case "Droplet":
+      return Droplet
+    default:
+      return BrickWall
+  }
 }
 
-export function getTotalCategoryItems(
-  items: Order["items"],
-  name: Category["name"]
-): number {
-  return items.reduce((accumulator, item) => {
-    if (item.category.name === name) {
-      return accumulator + item.quantity
-    }
-
-    return accumulator
-  }, 0)
-}
-
-export function getOrderTotal(items: Order["items"]): number {
-  return items.reduce((accumulator, item) => {
-    return accumulator + item.price * item.quantity
-  }, 0)
-}
-
-export function getOrderPaymentMethodIcon(paymentMethod: Order["paymentMethod"]): LucideIcon {
+export function getOrderPaymentMethodIcon(
+  paymentMethod: Order["paymentMethod"]
+): LucideIcon {
   switch (paymentMethod) {
     case "cash":
       return CircleDollarSign
@@ -98,4 +50,52 @@ export function getOrderPaymentMethodIcon(paymentMethod: Order["paymentMethod"])
     case "e-wallet":
       return QrCode
   }
+}
+
+export function getCategoryItemsTotal(
+  items: Order["items"],
+  id: Category["id"]
+): number {
+  return items.reduce((accumulator, item) => {
+    if (item.categoryId === id) {
+      return accumulator + item.quantity
+    }
+
+    return accumulator
+  }, 0)
+}
+
+export function getCategoriesItemsTotal(
+  items: Order["items"]
+): { id: Category["id"]; total: number }[] {
+  const map = new Map<Category["id"], number>()
+  for (const item of items) {
+    map.set(
+      item.categoryId,
+      map.has(item.categoryId)
+        ? map.get(item.categoryId)! + item.quantity
+        : item.quantity
+    )
+  }
+
+  return Array.from(map, ([id, total]) => ({ id, total }))
+}
+
+export function getOrderTotal(items: Order["items"]): number {
+  return items.reduce((accumulator, item) => {
+    return accumulator + item.price * item.quantity
+  }, 0)
+}
+
+export function rupiah(num: number): string {
+  return (
+    new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    })
+      .format(num)
+      .split(".")
+      .slice(0, -1)
+      .join(".") + "k"
+  )
 }
