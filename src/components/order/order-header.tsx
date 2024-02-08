@@ -5,10 +5,10 @@ import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 
-import { useOrder } from "@/store/order"
+import { useOrderVisualId } from "@/store/order"
 
 export default function OrderHeader() {
-  const order = useOrder()
+  const orderVisualId = useOrderVisualId()
   const router = useRouter()
 
   return (
@@ -21,7 +21,7 @@ export default function OrderHeader() {
         <ArrowLeft className="shrink-0 h-6 w-6 text-white" />
       </Button>
       <div className="absolute left-0 right-0 mx-auto text-center">
-        <p className="text-white">Order #{order.id}</p>
+        <p className="text-white">Order #{orderVisualId}</p>
       </div>
     </section>
   )

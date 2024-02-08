@@ -1,125 +1,121 @@
 import { create } from "zustand"
+import { createJSONStorage, persist } from "zustand/middleware"
 
+import { getOrderCount } from "@/actions/order"
 import { Order, PaymentMethod, Product } from "@/lib/types"
 
 type OrderState = {
+  orderVisualId: number
   order: Order
-  orders: Order[]
 }
 
 type OrderActions = {
   actions: {
+    createOrderVisualId: () => void
     addItem: (item: Product) => void
     removeItem: (id: Product["id"]) => void
     increaseItemQuantity: (id: Product["id"]) => void
     decreaseItemQuantity: (id: Product["id"]) => void
     changePaymentMethod: (paymentMethod: PaymentMethod) => void
-    addOrder: () => void
-    deleteOrder: (id: Order["id"]) => void
-    updateOrder: (id: Order["id"], fields: Omit<Order, "id">) => void
-    toggleShipOrder: (id: Order["id"]) => void
+    reset: () => void
   }
 }
 
 const initialState: OrderState = {
+  orderVisualId: 0,
   order: {
-    id: 1,
+    id: crypto.randomUUID(),
+    visualId: 0,
     items: [],
     paymentMethod: "cash",
     isShipped: false,
   },
-  orders: [],
 }
 
-const orderStore = create<OrderState & OrderActions>()((set) => ({
-  ...initialState,
-  actions: {
-    addItem: (item) =>
-      set((state) => ({
-        order: {
-          ...state.order,
-          items: [...state.order.items, { ...item, quantity: 1 }],
+const orderStore = create<OrderState & OrderActions>()(
+  persist(
+    (set) => ({
+      ...initialState,
+      actions: {
+        createOrderVisualId: async () => {
+          const visualId = await getOrderCount()
+          return set((state) => ({
+            orderVisualId: state.orderVisualId
+              ? state.orderVisualId
+              : visualId + 1,
+          }))
         },
-      })),
-    removeItem: (id) =>
-      set((state) => ({
-        order: {
-          ...state.order,
-          items: state.order.items.filter((item) => item.id !== id),
-        },
-      })),
-    increaseItemQuantity: (id) =>
-      set((state) => ({
-        order: {
-          ...state.order,
-          items: state.order.items.map((item) => {
-            if (item.id === id) {
-              return {
-                ...item,
-                quantity: item.quantity + 1,
-              }
-            }
+        addItem: (item) =>
+          set((state) => ({
+            order: {
+              ...state.order,
+              items: [
+                ...state.order.items,
+                {
+                  id: item.id,
+                  name: item.name,
+                  price: item.price,
+                  quantity: 1,
+                  categoryId: item.category.id,
+                },
+              ],
+            },
+          })),
+        removeItem: (id) =>
+          set((state) => ({
+            order: {
+              ...state.order,
+              items: state.order.items.filter((item) => item.id !== id),
+            },
+          })),
+        increaseItemQuantity: (id) =>
+          set((state) => ({
+            order: {
+              ...state.order,
+              items: state.order.items.map((item) => {
+                if (item.id === id) {
+                  return {
+                    ...item,
+                    quantity: item.quantity + 1,
+                  }
+                }
 
-            return item
-          }),
-        },
-      })),
-    decreaseItemQuantity: (id) =>
-      set((state) => ({
-        order: {
-          ...state.order,
-          items: state.order.items.map((item) => {
-            if (item.id === id) {
-              return {
-                ...item,
-                quantity: item.quantity - 1,
-              }
-            }
+                return item
+              }),
+            },
+          })),
+        decreaseItemQuantity: (id) =>
+          set((state) => ({
+            order: {
+              ...state.order,
+              items: state.order.items.map((item) => {
+                if (item.id === id) {
+                  return {
+                    ...item,
+                    quantity: item.quantity - 1,
+                  }
+                }
 
-            return item
-          }),
-        },
-      })),
-    changePaymentMethod: (paymentMethod) =>
-      set((state) => ({ order: { ...state.order, paymentMethod } })),
-    addOrder: () =>
-      set((state) => ({
-        orders: [...state.orders, state.order],
-        order: initialState.order,
-      })),
-    deleteOrder: (id) =>
-      set((state) => ({
-        orders: state.orders.filter((order) => order.id !== id),
-      })),
-    updateOrder: (id, fields) =>
-      set((state) => ({
-        orders: state.orders.map((order) => {
-          if (order.id === id) {
-            return {
-              ...order,
-              ...fields,
-            }
-          }
+                return item
+              }),
+            },
+          })),
+        changePaymentMethod: (paymentMethod) =>
+          set((state) => ({ order: { ...state.order, paymentMethod } })),
+        reset: () => set(() => ({ ...initialState })),
+      },
+    }),
+    {
+      name: "order-storage",
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({
+        orderVisualId: state.orderVisualId,
+        order: state.order,
+      }),
+    }
+  )
+)
 
-          return order
-        }),
-      })),
-    toggleShipOrder: (id) =>
-      set((state) => ({
-        orders: state.orders.map((order) => {
-          if (order.id === id) {
-            return {
-              ...order,
-              isShipped: !order.isShipped,
-            }
-          }
-
-          return order
-        }),
-      })),
-  },
-}))
-
+export const useOrderVisualId = () => orderStore((state) => state.orderVisualId)
 export const useOrder = () => orderStore((state) => state.order)
-export const useOrders = () => orderStore((state) => state.orders)
 export const useOrderActions = () => orderStore((state) => state.actions)

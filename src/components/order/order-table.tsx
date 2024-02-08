@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table"
 
 import { Order } from "@/lib/types"
-import { cn, getOrderTotal } from "@/lib/utils"
+import { cn, getOrderTotal, rupiah } from "@/lib/utils"
 
 interface OrderTableProps {
   order: Order
@@ -55,7 +55,7 @@ export default function OrderTable({ order }: OrderTableProps) {
             <TableCell
               className={cn(rowCellStyles.className, "pr-0 text-right")}
             >
-              ${item.price}
+              {rupiah(item.price)}
             </TableCell>
           </TableRow>
         ))}
@@ -77,7 +77,7 @@ export default function OrderTable({ order }: OrderTableProps) {
               "pr-0 font-semibold text-right"
             )}
           >
-            ${total}
+            {rupiah(total)}
           </TableCell>
         </TableRow>
       </TableFooter>

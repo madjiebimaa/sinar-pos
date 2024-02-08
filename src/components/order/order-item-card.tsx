@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 
 import { OrderItem } from "@/lib/types"
+import { rupiah } from "@/lib/utils"
 
 interface OrderItemCardProps {
   item: OrderItem
@@ -21,7 +22,7 @@ export default function OrderItemCard({ item, order }: OrderItemCardProps) {
           </div>
         </div>
         <span className="flex justify-center items-center text-sm text-silver-chalice">
-          ${item.price * item.quantity}
+          {rupiah(item.price * item.quantity)}
         </span>
       </CardContent>
     </Card>

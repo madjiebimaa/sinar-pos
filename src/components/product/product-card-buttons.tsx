@@ -19,7 +19,7 @@ export default function ProductCardButtons({
 }: ProductCardButtonsProps) {
   const orderActions = useOrderActions()
 
-  const isProductSelected = orderItem && orderItem.quantity > 0
+  const isProductSelected = Boolean(orderItem && orderItem.quantity > 0)
 
   const handleDecreaseQuantity = () => {
     if (orderItem) {

@@ -5,11 +5,12 @@ import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 
-import { useOrder } from "@/store/order"
+import { useOrder, useOrderActions } from "@/store/order"
 
 export default function OrderButton() {
   const router = useRouter()
   const order = useOrder()
+  const orderActions = useOrderActions()
 
   const handleClick = () => {
     if (order.items.length === 0) {
@@ -18,6 +19,7 @@ export default function OrderButton() {
           "It looks like you haven't placed any orders yet. Not to worry!",
       })
     } else {
+      orderActions.createOrderVisualId()
       router.push("/mobile/order")
     }
   }

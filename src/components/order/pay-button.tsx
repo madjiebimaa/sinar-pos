@@ -1,18 +1,18 @@
 "use client"
 
-import { useRouter } from "next/navigation"
-
 import { Button } from "@/components/ui/button"
 
-import { useOrderActions } from "@/store/order"
+import { addOrder } from "@/actions/order"
+import { useOrder, useOrderActions, useOrderVisualId } from "@/store/order"
 
 export default function PayButton() {
-  const router = useRouter()
+  const orderVisualId = useOrderVisualId()
+  const order = useOrder()
   const orderActions = useOrderActions()
 
-  const handleClick = () => {
-    orderActions.addOrder()
-    router.push("/products")
+  const handleClick = async () => {
+    await addOrder({ ...order, visualId: orderVisualId! })
+    orderActions.reset()
   }
 
   return (

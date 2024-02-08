@@ -1,11 +1,8 @@
-"use client"
-
+import { getOrders } from "@/actions/order"
 import OrderCard from "@/components/order/order-card"
 
-import { useOrders } from "@/store/order"
-
-export default function OrderList() {
-  const orders = useOrders()
+export default async function OrderList() {
+  const orders = await getOrders()
 
   return (
     <section className="flex flex-col gap-2 px-4 overflow-y-scroll">

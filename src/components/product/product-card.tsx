@@ -7,7 +7,7 @@ import ProductCardButtons from "@/components/product/product-card-buttons"
 import { Card, CardContent } from "@/components/ui/card"
 
 import { Product } from "@/lib/types"
-import { cn, getCategoryStyle } from "@/lib/utils"
+import { cn, rupiah } from "@/lib/utils"
 import { useOrder } from "@/store/order"
 
 interface ProductCardProps {
@@ -21,18 +21,17 @@ export default function ProductCard({ product }: ProductCardProps) {
     () => order.items.find((item) => item.id === product.id),
     [order.items, product.id]
   )
-  const { borderColor, backgroundColor } = getCategoryStyle(
-    product.category.name
-  )
 
-  const isProductSelected = orderItem && orderItem.quantity > 0
+  const isProductSelected = Boolean(orderItem && orderItem.quantity > 0)
 
   return (
     <Card
+      style={{
+        borderColor: product.category.color,
+        backgroundColor: isProductSelected ? product.category.color : undefined,
+      }}
       className={cn(
-        "bg-onyx border-y-0 border-r-0 border-l-8 transition-all duration-500",
-        borderColor,
-        isProductSelected && backgroundColor
+        "bg-onyx border-y-0 border-r-0 border-l-8 transition-all duration-500"
       )}
     >
       <CardContent className="flex flex-col justify-between h-[120px] p-4">
@@ -62,7 +61,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                 isProductSelected && "text-onyx"
               )}
             >
-              ${product.price}
+              {rupiah(product.price)}
             </span>
           </div>
         </section>
