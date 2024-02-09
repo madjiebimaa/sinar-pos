@@ -13,9 +13,11 @@ export default function Page({
 }: {
   searchParams?: {
     query?: string
+    category?: string
   }
 }) {
   const query = searchParams?.query || ""
+  const category = searchParams?.category || ""
 
   return (
     <main className="flex h-full overflow-hidden">
@@ -26,7 +28,7 @@ export default function Page({
           <Separator className="bg-onyx" />
         </section>
         <div className="flex flex-col overflow-hidden">
-          <ProductList query={query} />
+          <ProductList filters={{ query, category }} />
         </div>
         <div className="z-10 sticky md:hidden bottom-0 left-0 right-0">
           <OrderButton />

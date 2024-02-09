@@ -6,7 +6,6 @@ import {
   deleteDoc,
   doc,
   getCountFromServer,
-  getDoc,
   getDocs,
   orderBy,
   query,
@@ -15,6 +14,7 @@ import {
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
+import { getProductById } from "@/actions/product"
 import { db } from "@/lib/firebase"
 import { Order, OrderItem, OrderSnapshot } from "@/lib/types"
 
@@ -53,11 +53,13 @@ export async function getOrders(): Promise<Order[]> {
 
       const items = (await Promise.all(
         orderSnapshot.items.map(async (item) => {
-          const productDoc = await getDoc(doc(db, "products", item.id))
+          const product = await getProductById(item.id)
 
           return {
-            id: productDoc.id,
-            ...productDoc.data(),
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            categoryId: product.category.id,
             quantity: item.quantity,
           }
         })

@@ -8,7 +8,7 @@ export default function OrderItemList() {
   const order = useOrder()
 
   return (
-    <section className="flex flex-col gap-2 overflow-y-scroll">
+    <section className="flex flex-col gap-2 overflow-y-auto">
       {order.items.map((item, index) => (
         <OrderItemCard key={item.id} item={item} order={index + 1} />
       ))}

@@ -4,14 +4,17 @@ import { getProducts } from "@/actions/product"
 import { Product } from "@/lib/types"
 
 interface ProductListProps {
-  query: string
+  filters: {
+    query: string
+    category: string
+  }
 }
 
-export default async function ProductList({ query }: ProductListProps) {
-  const products = await getProducts(query)
+export default async function ProductList({ filters }: ProductListProps) {
+  const products = await getProducts(filters)
 
   return (
-    <section className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-2 overflow-y-scroll">
+    <section className="flex-1 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2 overflow-y-auto">
       {products.map((product: Product) => (
         <ProductCard key={product.id} product={product} />
       ))}
