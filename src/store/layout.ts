@@ -1,3 +1,4 @@
+import { useMediaQuery } from "@uidotdev/usehooks"
 import { create } from "zustand"
 
 type LayoutState = {
@@ -6,7 +7,8 @@ type LayoutState = {
 
 type LayoutActions = {
   actions: {
-    toggleSidebarOpen: () => void
+    openSidebar: () => void
+    closeSidebar: () => void
   }
 }
 
@@ -17,8 +19,8 @@ const initialState: LayoutState = {
 const layoutStore = create<LayoutState & LayoutActions>()((set) => ({
   ...initialState,
   actions: {
-    toggleSidebarOpen: () =>
-      set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
+    openSidebar: () => set({ isSidebarOpen: true }),
+    closeSidebar: () => set({ isSidebarOpen: false }),
   },
 }))
 

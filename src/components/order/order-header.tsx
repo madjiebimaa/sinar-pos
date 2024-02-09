@@ -18,10 +18,10 @@ export default function OrderHeader() {
   }, [orderActions])
 
   return (
-    <section className="relative flex items-center">
+    <section className="relative flex items-center h-[40px]">
       <Button
         variant="ghost"
-        className="shrink-0 h-fit w-fit p-0 hover:bg-transparent hover:opacity-50"
+        className="shrink-0 h-fit w-fit p-0 hover:bg-transparent hover:opacity-50 md:hidden"
         onClick={() => router.back()}
       >
         <ArrowLeft className="shrink-0 h-6 w-6 text-white" />

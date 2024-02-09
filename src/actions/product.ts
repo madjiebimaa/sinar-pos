@@ -7,13 +7,19 @@ import {
   getDocs,
   orderBy,
   query,
+  where,
 } from "firebase/firestore"
 
 import { db } from "@/lib/firebase"
 import { CategorySnapshot, Product, ProductSnapshot } from "@/lib/types"
 
-export async function getProducts(): Promise<Product[]> {
-  const q = query(collection(db, "products"), orderBy("name", "asc"))
+export async function getProducts(name: string): Promise<Product[]> {
+  const q = query(
+    collection(db, "products"),
+    where("queryName", ">=", name),
+    where("queryName", "<=", name + "~"),
+    orderBy("queryName", "asc")
+  )
   const querySnapshot = await getDocs(q)
 
   return Promise.all(

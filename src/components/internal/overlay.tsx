@@ -10,10 +10,10 @@ export default function Overlay() {
   return (
     <div
       className={cn(
-        "absolute top-0 left-0 ring-0 z-10 h-screen w-screen bg-black/50 opacity-0 invisible transition-all duration-300",
+        "absolute lg:hidden top-0 left-0 ring-0 z-10 h-screen w-screen bg-black/50 opacity-0 invisible transition-all duration-300",
         isSidebarOpen && "opacity-100 visible"
       )}
-      onClick={() => layoutActions.toggleSidebarOpen()}
+      onClick={() => layoutActions.closeSidebar()}
     />
   )
 }

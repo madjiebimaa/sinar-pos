@@ -21,6 +21,7 @@ export default function ProductSearch() {
     <div className="relative max-w-[300px]">
       <Search className="absolute top-2 left-2 shrink-0 h-6 w-6 text-silver-chalice" />
       <Input
+        id="search"
         type="text"
         placeholder="Search..."
         autoComplete="off"
