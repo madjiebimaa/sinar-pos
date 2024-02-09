@@ -1,5 +1,7 @@
 "use client"
 
+import { toast } from "sonner"
+
 import { Button } from "@/components/ui/button"
 
 import { addOrder } from "@/actions/order"
@@ -11,9 +13,16 @@ export default function PayButton() {
   const orderActions = useOrderActions()
 
   const handleClick = async () => {
-    await addOrder({ ...order, visualId: orderVisualId! })
-    orderActions.reset()
-    orderActions.createOrderVisualId()
+    if (order.items.length === 0) {
+      toast("No Orders Yet", {
+        description:
+          "It looks like you haven't placed any orders yet. Not to worry!",
+      })
+    } else {
+      await addOrder({ ...order, visualId: orderVisualId! })
+      orderActions.reset()
+      orderActions.createOrderVisualId()
+    }
   }
 
   return (

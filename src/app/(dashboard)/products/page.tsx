@@ -34,7 +34,7 @@ export default function Page({
           <OrderButton />
         </div>
       </section>
-      <section className="hidden md:flex flex-col gap-4 p-4 min-w-[300px] max-w-[300px]">
+      <section className="hidden md:flex flex-col gap-4 p-4 min-w-[300px] xl:min-w-[400px] max-w-[300px] xl:max-w-[400px]">
         <OrderHeader />
         <div className="flex flex-1 flex-col overflow-hidden">
           <OrderItemList />

@@ -1,3 +1,4 @@
+import DeleteOrderItemButton from "@/components/order/delete-order-item-button"
 import { Card, CardContent } from "@/components/ui/card"
 
 import { OrderItem } from "@/lib/types"
@@ -11,8 +12,9 @@ interface OrderItemCardProps {
 export default function OrderItemCard({ item, order }: OrderItemCardProps) {
   return (
     <Card className="border-none bg-onyx">
-      <CardContent className="flex justify-between items-center p-4 gap-4">
-        <div className="flex items-center gap-2 truncate">
+      <CardContent className="group/order-item-card relative flex justify-between items-center p-4 gap-4">
+        <div className="flex items-center gap-4 truncate">
+          <DeleteOrderItemButton item={item} />
           <span className="flex justify-center items-center rounded-full bg-white h-6 w-6 p-2 text-xs">
             {order}
           </span>

@@ -26,7 +26,7 @@ export default function OrderActionButtons({ order }: OrderActionButtonsProps) {
       </form>
       <form action={shipOrder}>
         <Button className="w-[120px] px-6 font-semibold text-white border bg-granite-gray hover:bg-granite-gray border-granite-gray hover:opacity-50">
-          {order.isShipped ? "Ship" : "Shipped"}
+          {order.isShipped ? "Shipped" : "Ship"}
         </Button>
       </form>
     </div>

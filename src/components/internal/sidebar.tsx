@@ -37,7 +37,7 @@ export default function Sidebar() {
   return (
     <aside
       className={cn(
-        "fixed lg:static z-20 flex shrink-0 flex-col gap-4 p-4 h-screen w-[200px] lg:w-[150px] bg-woodsmoke transition-all duration-300",
+        "fixed lg:static z-20 flex shrink-0 flex-col gap-4 p-4 h-screen w-[200px] lg:w-[150px] xl:w-[200px] bg-woodsmoke transition-all duration-300",
         !isSidebarOpen && "-ml-[200px]"
       )}
     >
@@ -71,6 +71,19 @@ export default function Sidebar() {
             {link.label}
           </Button>
         ))}
+      </section>
+      <section className="mt-auto">
+        <p className="text-center text-xs xl:text-sm">
+          &copy; {"2024 "}
+          <a
+            href="https://github.com/madjiebimaa"
+            target="_blank"
+            className="font-semibold underline"
+          >
+            Muhammad Adjie Bimaditya
+          </a>
+          . All Rights Reserved
+        </p>
       </section>
     </aside>
   )
