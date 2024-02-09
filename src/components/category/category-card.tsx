@@ -27,7 +27,7 @@ export default function CategoryCard({ category }: CategoryCardProps) {
       className={cn("border-none")}
     >
       <CardContent className="flex flex-col justify-between h-[130px] w-[130px] p-4">
-        <Icon className="shrink-0 h-4 w-4 text-woodsmoke" />
+        <Icon className="shrink-0 h-5 w-5 text-woodsmoke" />
         <div className="flex flex-col gap-1">
           <p className="font-medium text-sm text-woodsmoke">{category.name}</p>
           <span className="text-xs text-granite-gray">{totalItems} items</span>

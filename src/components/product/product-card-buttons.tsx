@@ -53,7 +53,7 @@ export default function ProductCardButtons({
   }
 
   return (
-    <div className="flex justify-end items-center gap-3">
+    <div className="flex justify-end items-center gap-3 p-2">
       <Button {...buttonStyles} onClick={handleDecreaseQuantity}>
         <Minus {...buttonIconStyles} />
       </Button>

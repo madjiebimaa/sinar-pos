@@ -6,22 +6,16 @@ import { Separator } from "@/components/ui/separator"
 
 export default function Page() {
   return (
-    <main className="flex flex-col py-4 overflow-hidden pb-[80px]">
+    <main className="flex flex-col gap-4 p-4 overflow-hidden">
       <section className="flex flex-col gap-4">
-        <div className="px-4">
-          <ProductSearch />
-        </div>
-        <div className="pl-4">
-          <CategoryList />
-        </div>
-        <div className="px-4">
-          <Separator className="bg-onyx" />
-        </div>
+        <ProductSearch />
+        <CategoryList />
+        <Separator className="bg-onyx" />
       </section>
-      <div className="flex flex-col gap-2 p-4 overflow-hidden">
+      <div className="flex flex-col overflow-hidden">
         <ProductList />
       </div>
-      <div className="z-10 absolute bottom-0 left-0 right-0 p-4 bg-woodsmoke">
+      <div className="z-10 sticky bottom-0 left-0 right-0">
         <OrderButton />
       </div>
     </main>

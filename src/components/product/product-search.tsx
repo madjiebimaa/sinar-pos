@@ -18,7 +18,7 @@ export default function ProductSearch() {
   }, 300)
 
   return (
-    <div className="relative">
+    <div className="relative max-w-[300px]">
       <Search className="absolute top-2 left-2 shrink-0 h-6 w-6 text-silver-chalice" />
       <Input
         type="text"

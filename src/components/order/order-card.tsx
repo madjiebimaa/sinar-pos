@@ -21,7 +21,7 @@ export default function OrderCard({ order }: OrderCardProps) {
   const Icon = getOrderPaymentMethodIcon(order.paymentMethod)
 
   return (
-    <Card className="bg-onyx border-none md:max-w-[250px]">
+    <Card className="bg-onyx border-none h-fit break-inside-avoid mb-2">
       <CardContent className="flex flex-col p-4">
         <section className="flex flex-col gap-2 pb-4 border-b-4 border-dotted border-silver-chalice">
           <div className="flex justify-between items-center gap-2">

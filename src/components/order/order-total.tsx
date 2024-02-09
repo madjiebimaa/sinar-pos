@@ -24,10 +24,10 @@ export default function OrderTotal() {
   const total = useMemo(() => getOrderTotal(order.items), [order.items])
 
   return (
-    <section className="flex flex-col p-4 gap-8">
-      <div className="flex justify-between items-center pt-2 border-t-4 border-dotted border-silver-chalice">
+    <section className="flex flex-col gap-4">
+      <div className="flex justify-between items-center pt-4 border-t-4 border-dotted border-silver-chalice">
         <p>Total</p>
-        <span className="font-semibold">{rupiah(total)}</span>
+        <span className="font-semibold">{total !== 0 && rupiah(total)}</span>
       </div>
       <section className="flex flex-col gap-2">
         <p className="text-sm text-silver-chalice">Payment Method</p>

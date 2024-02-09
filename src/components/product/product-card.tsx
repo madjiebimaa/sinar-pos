@@ -34,7 +34,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         "bg-onyx border-y-0 border-r-0 border-l-8 transition-all duration-500"
       )}
     >
-      <CardContent className="flex flex-col justify-between h-[120px] p-4">
+      <CardContent className="flex flex-col justify-between h-[120px] p-2">
         <section className="flex flex-col gap-2">
           <div
             className={cn(

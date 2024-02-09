@@ -13,6 +13,7 @@ export default function PayButton() {
   const handleClick = async () => {
     await addOrder({ ...order, visualId: orderVisualId! })
     orderActions.reset()
+    orderActions.createOrderVisualId()
   }
 
   return (
