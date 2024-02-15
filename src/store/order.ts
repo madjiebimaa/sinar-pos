@@ -17,6 +17,7 @@ type OrderActions = {
     increaseItemQuantity: (id: Product["id"]) => void
     decreaseItemQuantity: (id: Product["id"]) => void
     changePaymentMethod: (paymentMethod: PaymentMethod) => void
+    toggleNeedToBeShip: () => void
     reset: () => void
   }
 }
@@ -28,6 +29,7 @@ const initialState: OrderState = {
     visualId: 0,
     items: [],
     paymentMethod: "cash",
+    isNeedToBeShip: false,
     isShipped: false,
     createdAt: new Date(),
     customer: null,
@@ -104,6 +106,13 @@ const orderStore = create<OrderState & OrderActions>()(
           })),
         changePaymentMethod: (paymentMethod) =>
           set((state) => ({ order: { ...state.order, paymentMethod } })),
+        toggleNeedToBeShip: () =>
+          set((state) => ({
+            order: {
+              ...state.order,
+              isNeedToBeShip: !state.order.isNeedToBeShip,
+            },
+          })),
         reset: () => set(() => ({ ...initialState })),
       },
     }),

@@ -34,6 +34,7 @@ export async function addOrder(order: Order): Promise<void> {
   await addDoc(collection(db, "orders"), {
     visualId: order.visualId,
     paymentMethod: order.paymentMethod,
+    isNeedToBeShip: order.isNeedToBeShip,
     isShipped: order.isShipped,
     createdAt: new Date(),
     items,
@@ -62,26 +63,30 @@ export async function getOrders(): Promise<Order[]> {
       const items = (await Promise.all(
         orderSnapshot.items.map(async (item) => {
           const product = await getProductById(item.id)
-
-          return {
+          const orderItem: OrderItem = {
             id: product.id,
             name: product.name,
             price: product.price,
             categoryId: product.category.id,
             quantity: item.quantity,
           }
+
+          return orderItem
         })
       )) as OrderItem[]
 
-      return {
+      const order: Order = {
         id: orderSnapshot.id,
         visualId: orderSnapshot.visualId,
-        items,
         paymentMethod: orderSnapshot.paymentMethod,
+        isNeedToBeShip: orderSnapshot.isNeedToBeShip,
         isShipped: orderSnapshot.isShipped,
-        customer: customer,
         createdAt: orderSnapshot.createdAt.toDate(),
+        items,
+        customer,
       }
+
+      return order
     })
   )
 }

@@ -25,13 +25,14 @@ export async function getProductById(id: Product["id"]): Promise<Product> {
   } as ProductSnapshot
 
   const category = await getCategoryById(productSnapshot.categoryId)
-
-  return {
+  const product: Product = {
     id: productSnapshot.id,
     name: productSnapshot.name,
     price: productSnapshot.price,
     category,
-  } as Product
+  }
+
+  return product
 }
 
 async function applyFilters(

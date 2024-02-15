@@ -33,6 +33,7 @@ export type Order = {
   id: string
   visualId: number
   paymentMethod: PaymentMethod
+  isNeedToBeShip: boolean
   isShipped: boolean
   createdAt: Date
 

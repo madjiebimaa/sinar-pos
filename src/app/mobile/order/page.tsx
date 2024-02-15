@@ -6,13 +6,8 @@ import PayButton from "@/components/order/pay-button"
 
 import { getCustomers } from "@/actions/customer"
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams?: { query?: string }
-}) {
-  const query = searchParams?.query || ""
-  const customers = await getCustomers({ name: query })
+export default async function Page() {
+  const customers = await getCustomers()
 
   return (
     <main className="flex flex-col gap-4 min-h-screen max-h-screen p-4">

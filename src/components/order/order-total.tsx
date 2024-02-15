@@ -4,6 +4,7 @@ import { CircleDollarSign, CreditCard, LucideIcon, QrCode } from "lucide-react"
 import { useMemo } from "react"
 
 import PaymentMethodButton from "@/components/order/payment-method-button"
+import ShipSwitch from "@/components/order/ship-switch"
 
 import { PaymentMethod } from "@/lib/types"
 import { getOrderTotal, rupiah } from "@/lib/utils"
@@ -29,6 +30,7 @@ export default function OrderTotal() {
         <p>Total</p>
         <span className="font-semibold">{total !== 0 && rupiah(total)}</span>
       </div>
+      <ShipSwitch isNeedToBeShip={order.isNeedToBeShip} />
       <section className="flex flex-col gap-2">
         <p className="text-sm text-silver-chalice">Payment Method</p>
         <section className="grid grid-cols-3 gap-2">

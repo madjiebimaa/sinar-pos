@@ -1,8 +1,6 @@
 "use server"
 
 import {
-  DocumentData,
-  Query,
   addDoc,
   collection,
   doc,
@@ -10,7 +8,6 @@ import {
   getDocs,
   orderBy,
   query,
-  where,
 } from "firebase/firestore"
 import { revalidatePath } from "next/cache"
 
@@ -26,26 +23,8 @@ export async function getCustomerById(id: Customer["id"]): Promise<Customer> {
   } as Customer
 }
 
-function applyFilters(
-  q: Query<DocumentData, DocumentData>,
-  { name }: { name?: string }
-) {
-  if (name) {
-    q = query(
-      q,
-      where("queryName", ">=", name),
-      where("queryName", "<=", name + "~")
-    )
-  }
-
-  return q
-}
-
-export async function getCustomers(filters: {
-  name?: string
-}): Promise<Customer[]> {
-  let q = query(collection(db, "customers"), orderBy("name", "asc"))
-  q = applyFilters(q, filters)
+export async function getCustomers(): Promise<Customer[]> {
+  const q = query(collection(db, "customers"), orderBy("name", "asc"))
   const querySnapshot = await getDocs(q)
 
   return querySnapshot.docs.map((customerDoc) => ({

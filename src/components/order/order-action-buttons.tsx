@@ -24,11 +24,13 @@ export default function OrderActionButtons({ order }: OrderActionButtonsProps) {
           <Trash className="shrink-0 h-5 w-5 text-silver-chalice" />
         </Button>
       </form>
-      <form action={shipOrderByIdAction}>
-        <Button className="w-[120px] px-6 font-semibold text-white border bg-granite-gray hover:bg-granite-gray border-granite-gray hover:opacity-50">
-          {order.isShipped ? "Shipped" : "Ship"}
-        </Button>
-      </form>
+      {order.isNeedToBeShip && (
+        <form action={shipOrderByIdAction}>
+          <Button className="w-[120px] px-6 font-semibold text-white border bg-granite-gray hover:bg-granite-gray border-granite-gray hover:opacity-50">
+            {order.isShipped ? "Shipped" : "Ship"}
+          </Button>
+        </form>
+      )}
     </div>
   )
 }

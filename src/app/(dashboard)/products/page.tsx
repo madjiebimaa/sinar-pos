@@ -1,4 +1,3 @@
-import { getCustomers } from "@/actions/customer"
 import CategoryList from "@/components/category/category-list"
 import { CustomerCombobox } from "@/components/customer/customer-combobox"
 import SearchInput from "@/components/internal/search-input"
@@ -9,6 +8,8 @@ import OrderTotal from "@/components/order/order-total"
 import PayButton from "@/components/order/pay-button"
 import ProductList from "@/components/product/product-list"
 import { Separator } from "@/components/ui/separator"
+
+import { getCustomers } from "@/actions/customer"
 
 export default async function Page({
   searchParams,
@@ -21,7 +22,7 @@ export default async function Page({
   const query = searchParams?.query || ""
   const category = searchParams?.category || ""
 
-  const customers = await getCustomers({ name: query })
+  const customers = await getCustomers()
 
   return (
     <main className="flex h-full overflow-hidden">
@@ -38,7 +39,7 @@ export default async function Page({
           <OrderButton />
         </div>
       </section>
-      <section className="hidden md:flex flex-col gap-4 p-4 min-w-[320px] xl:min-w-[400px] max-w-[320px] xl:max-w-[400px]">
+      <section className="hidden md:flex flex-col gap-4 p-4 min-w-[320px] max-w-[320px]">
         <OrderHeader />
         <CustomerCombobox customers={customers} />
         <div className="flex flex-1 flex-col overflow-hidden">

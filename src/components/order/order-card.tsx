@@ -4,11 +4,12 @@ import { useMemo } from "react"
 
 import CategoryTotalList from "@/components/category/category-total-list"
 import OrderActionButtons from "@/components/order/order-action-buttons"
+import OrderCardIcons from "@/components/order/order-card-icons"
 import OrderTable from "@/components/order/order-table"
 import { Card, CardContent } from "@/components/ui/card"
 
 import { Order } from "@/lib/types"
-import { getCategoriesItemsTotal, getOrderPaymentMethodIcon } from "@/lib/utils"
+import { getCategoriesItemsTotal } from "@/lib/utils"
 
 dayjs.extend(localizedFormat)
 
@@ -22,8 +23,6 @@ export default function OrderCard({ order }: OrderCardProps) {
     [order.items]
   )
 
-  const Icon = getOrderPaymentMethodIcon(order.paymentMethod)
-
   return (
     <Card className="bg-onyx border-none h-fit break-inside-avoid mb-2">
       <CardContent className="flex flex-col p-4">
@@ -34,9 +33,7 @@ export default function OrderCard({ order }: OrderCardProps) {
                 <span className="text-silver-chalice">Order</span>
                 <span className="text-white">#{order.visualId}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Icon className="shrink-0 h-5 w-5 text-silver-chalice" />
-              </div>
+              <OrderCardIcons order={order} />
             </div>
             <span className="font-medium text-sm text-silver-chalice">
               {dayjs(order.createdAt).format("lll")}
