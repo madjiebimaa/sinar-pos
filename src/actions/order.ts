@@ -14,9 +14,10 @@ import {
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
+import { getCustomerById } from "@/actions/customer"
 import { getProductById } from "@/actions/product"
 import { db } from "@/lib/firebase"
-import { Order, OrderItem, OrderSnapshot } from "@/lib/types"
+import { Customer, Order, OrderItem, OrderSnapshot } from "@/lib/types"
 
 export async function getOrderCount(): Promise<number> {
   const snapshot = await getCountFromServer(collection(db, "orders"))
@@ -32,9 +33,11 @@ export async function addOrder(order: Order): Promise<void> {
   }))
   await addDoc(collection(db, "orders"), {
     visualId: order.visualId,
-    items,
     paymentMethod: order.paymentMethod,
     isShipped: order.isShipped,
+    createdAt: new Date(),
+    items,
+    customerId: order.customer ? order.customer.id : null,
   })
 
   redirect("/products")
@@ -50,6 +53,11 @@ export async function getOrders(): Promise<Order[]> {
         id: orderDoc.id,
         ...orderDoc.data(),
       } as OrderSnapshot
+
+      let customer: Customer | null = null
+      if (orderSnapshot.customerId) {
+        customer = await getCustomerById(orderSnapshot.customerId)
+      }
 
       const items = (await Promise.all(
         orderSnapshot.items.map(async (item) => {
@@ -71,6 +79,8 @@ export async function getOrders(): Promise<Order[]> {
         items,
         paymentMethod: orderSnapshot.paymentMethod,
         isShipped: orderSnapshot.isShipped,
+        customer: customer,
+        createdAt: orderSnapshot.createdAt.toDate(),
       }
     })
   )

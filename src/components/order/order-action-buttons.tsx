@@ -10,12 +10,12 @@ interface OrderActionButtonsProps {
 }
 
 export default function OrderActionButtons({ order }: OrderActionButtonsProps) {
-  const deleteOrder = deleteOrderById.bind(null, order.id)
-  const shipOrder = shipOrderById.bind(null, order.id)
+  const deleteOrderByIdAction = deleteOrderById.bind(null, order.id)
+  const shipOrderByIdAction = shipOrderById.bind(null, order.id)
 
   return (
     <div className="flex items-center md:justify-between gap-2 pt-4">
-      <form action={deleteOrder}>
+      <form action={deleteOrderByIdAction}>
         <Button
           type="submit"
           variant="outline"
@@ -24,7 +24,7 @@ export default function OrderActionButtons({ order }: OrderActionButtonsProps) {
           <Trash className="shrink-0 h-5 w-5 text-silver-chalice" />
         </Button>
       </form>
-      <form action={shipOrder}>
+      <form action={shipOrderByIdAction}>
         <Button className="w-[120px] px-6 font-semibold text-white border bg-granite-gray hover:bg-granite-gray border-granite-gray hover:opacity-50">
           {order.isShipped ? "Shipped" : "Ship"}
         </Button>

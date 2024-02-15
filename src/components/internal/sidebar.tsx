@@ -1,6 +1,6 @@
 "use client"
 
-import { useMediaQuery } from "@uidotdev/usehooks"
+import { useIsClient, useMediaQuery } from "@uidotdev/usehooks"
 import { BrickWall, X } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
@@ -19,20 +19,21 @@ const links: { href: string; label: string }[] = [
 export default function Sidebar() {
   const pathname = usePathname()
   const router = useRouter()
+  const isClient = useIsClient()
   const isLargeDevice = useMediaQuery("only screen and (min-width : 1024px)")
   const isSidebarOpen = useIsSidebarOpen()
   const layoutActions = useLayoutActions()
 
   const goToPath = (href: string) => {
     router.push(href)
-    !isLargeDevice && layoutActions.closeSidebar()
+    isClient && !isLargeDevice && layoutActions.closeSidebar()
   }
 
   useEffect(() => {
-    if (isLargeDevice && !isSidebarOpen) {
+    if (isClient && isLargeDevice && !isSidebarOpen) {
       layoutActions.openSidebar()
     }
-  }, [isLargeDevice, isSidebarOpen, layoutActions])
+  }, [isClient, isLargeDevice, isSidebarOpen, layoutActions])
 
   return (
     <aside

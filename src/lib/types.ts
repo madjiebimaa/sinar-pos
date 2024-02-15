@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore"
+
 export type Category = {
   id: string
   name: string
@@ -20,32 +22,35 @@ export type OrderItem = {
   quantity: number
 }
 
+export type Customer = {
+  id: string
+  name: string
+}
+
 export type PaymentMethod = "cash" | "debit card" | "e-wallet"
 
 export type Order = {
   id: string
   visualId: number
-  items: OrderItem[]
   paymentMethod: PaymentMethod
   isShipped: boolean
+  createdAt: Date
+
+  items: OrderItem[]
+  customer: Customer | null
 }
 
 export type CategorySnapshot = Category
 
-export type ProductSnapshot = {
-  id: Product["id"]
-  name: Product["name"]
-  price: Product["price"]
+export type ProductSnapshot = Omit<Product, "category"> & {
   categoryId: Product["category"]["id"]
 }
 
-export type OrderSnapshot = {
-  id: Order["id"]
-  visualId: Order["visualId"]
+export type OrderSnapshot = Omit<Order, "items" | "customer" | "createdAt"> & {
   items: {
     id: OrderItem["id"]
     quantity: OrderItem["quantity"]
   }[]
-  paymentMethod: Order["paymentMethod"]
-  isShipped: Order["isShipped"]
+  customerId: Customer["id"]
+  createdAt: Timestamp
 }

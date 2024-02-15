@@ -29,6 +29,8 @@ const initialState: OrderState = {
     items: [],
     paymentMethod: "cash",
     isShipped: false,
+    createdAt: new Date(),
+    customer: null,
   },
 }
 

@@ -26,7 +26,7 @@ export default function OrderButton() {
 
   return (
     <Button
-      className="w-full py-6 rounded-full font-medium bg-white hover:bg-white text-woodsmoke hover:opacity-50"
+      className="w-full py-6 rounded-full font-bold text-woodsmoke bg-white hover:bg-white hover:opacity-50"
       onClick={handleClick}
     >
       Add to Order

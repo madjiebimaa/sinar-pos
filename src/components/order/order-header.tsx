@@ -9,8 +9,8 @@ import { Button } from "@/components/ui/button"
 import { useOrderActions, useOrderVisualId } from "@/store/order"
 
 export default function OrderHeader() {
-  const orderVisualId = useOrderVisualId()
   const router = useRouter()
+  const orderVisualId = useOrderVisualId()
   const orderActions = useOrderActions()
 
   useEffect(() => {
