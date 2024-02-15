@@ -1,6 +1,5 @@
 "use client"
 
-import { useIsClient, useMediaQuery } from "@uidotdev/usehooks"
 import { BrickWall, X } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
@@ -8,6 +7,7 @@ import { useEffect } from "react"
 
 import { Button } from "@/components/ui/button"
 
+import useDevice from "@/hooks/use-device"
 import { cn } from "@/lib/utils"
 import { useIsSidebarOpen, useLayoutActions } from "@/store/layout"
 
@@ -19,21 +19,20 @@ const links: { href: string; label: string }[] = [
 export default function Sidebar() {
   const pathname = usePathname()
   const router = useRouter()
-  const isClient = useIsClient()
-  const isLargeDevice = useMediaQuery("only screen and (min-width : 1024px)")
+  const { isLargeDevice } = useDevice()
   const isSidebarOpen = useIsSidebarOpen()
   const layoutActions = useLayoutActions()
 
-  const goToPath = (href: string) => {
-    router.push(href)
-    isClient && !isLargeDevice && layoutActions.closeSidebar()
-  }
-
   useEffect(() => {
-    if (isClient && isLargeDevice && !isSidebarOpen) {
+    if (isLargeDevice && !isSidebarOpen) {
       layoutActions.openSidebar()
     }
-  }, [isClient, isLargeDevice, isSidebarOpen, layoutActions])
+  }, [isLargeDevice, isSidebarOpen, layoutActions])
+
+  const goToPath = (href: string) => {
+    router.push(href)
+    !isLargeDevice && layoutActions.closeSidebar()
+  }
 
   return (
     <aside
