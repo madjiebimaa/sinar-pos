@@ -35,6 +35,7 @@ export type Order = {
   paymentMethod: PaymentMethod
   isNeedToBeShip: boolean
   isShipped: boolean
+  shipAddress: string
   createdAt: Date
 
   items: OrderItem[]

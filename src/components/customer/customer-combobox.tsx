@@ -39,7 +39,7 @@ export function CustomerCombobox({ customers }: CustomerComboboxProps) {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="p-0">
-        <Command className="max-h-[500px]">
+        <Command className="max-h-[330px]">
           <CommandInput placeholder="Search customer..." className="" />
           <CommandEmpty>
             <AddCustomerButton />

@@ -34,17 +34,18 @@ export async function getCustomers(): Promise<Customer[]> {
 }
 
 export async function addCustomer(name: Customer["name"]): Promise<Customer> {
-  const customer = {
+  const customerDoc = await addDoc(collection(db, "customers"), {
     name,
     queryName: name.toLowerCase(),
-  }
-  const customerDoc = await addDoc(collection(db, "customers"), customer)
+  })
 
   revalidatePath("/mobile/order")
   revalidatePath("/products")
 
-  return {
+  const customer: Customer = {
     id: customerDoc.id,
-    ...customer,
+    name,
   }
+
+  return customer
 }

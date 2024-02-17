@@ -36,11 +36,13 @@ export async function addOrder(order: Order): Promise<void> {
     paymentMethod: order.paymentMethod,
     isNeedToBeShip: order.isNeedToBeShip,
     isShipped: order.isShipped,
+    shipAddress: order.shipAddress,
     createdAt: new Date(),
     items,
     customerId: order.customer ? order.customer.id : null,
   })
 
+  revalidatePath("/orders")
   redirect("/products")
 }
 
@@ -81,6 +83,7 @@ export async function getOrders(): Promise<Order[]> {
         paymentMethod: orderSnapshot.paymentMethod,
         isNeedToBeShip: orderSnapshot.isNeedToBeShip,
         isShipped: orderSnapshot.isShipped,
+        shipAddress: orderSnapshot.shipAddress,
         createdAt: orderSnapshot.createdAt.toDate(),
         items,
         customer,

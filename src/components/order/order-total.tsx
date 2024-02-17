@@ -5,10 +5,12 @@ import { useMemo } from "react"
 
 import PaymentMethodButton from "@/components/order/payment-method-button"
 import ShipSwitch from "@/components/order/ship-switch"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 
 import { PaymentMethod } from "@/lib/types"
 import { getOrderTotal, rupiah } from "@/lib/utils"
-import { useOrder } from "@/store/order"
+import { useOrder, useOrderActions } from "@/store/order"
 
 const paymentMethods: {
   value: PaymentMethod
@@ -22,6 +24,7 @@ const paymentMethods: {
 
 export default function OrderTotal() {
   const order = useOrder()
+  const orderActions = useOrderActions()
   const total = useMemo(() => getOrderTotal(order.items), [order.items])
 
   return (
@@ -31,6 +34,16 @@ export default function OrderTotal() {
         <span className="font-semibold">{total !== 0 && rupiah(total)}</span>
       </div>
       <ShipSwitch isNeedToBeShip={order.isNeedToBeShip} />
+      <div className="flex flex-col gap-1">
+        <Label htmlFor="shipAddress">Ship ADdress</Label>
+        <Textarea
+          id="shipAddress"
+          placeholder="Type your ship address here."
+          className="text-woodsmoke"
+          value={order.shipAddress}
+          onChange={(event) => orderActions.addShipAddress(event.target.value)}
+        />
+      </div>
       <section className="flex flex-col gap-2">
         <p className="text-sm text-silver-chalice">Payment Method</p>
         <section className="grid grid-cols-3 gap-2">

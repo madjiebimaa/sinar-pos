@@ -39,13 +39,16 @@ export default function OrderCard({ order }: OrderCardProps) {
               {dayjs(order.createdAt).format("lll")}
             </span>
           </div>
-          {order.customer && (
-            <div className="flex flex-col gap-1">
+          <div className="flex flex-col">
+            {order.customer && (
               <p className="font-medium text-white text-lg">
                 {order.customer.name}
               </p>
-            </div>
-          )}
+            )}
+            {order.shipAddress && (
+              <p className="text-white text-sm">{order.shipAddress}</p>
+            )}
+          </div>
           <CategoryTotalList categories={categories} />
         </section>
         <OrderTable order={order} />

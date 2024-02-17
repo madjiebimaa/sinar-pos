@@ -41,10 +41,10 @@ export default async function Page({
       </section>
       <section className="hidden md:flex flex-col gap-4 p-4 min-w-[320px] max-w-[320px]">
         <OrderHeader />
-        <CustomerCombobox customers={customers} />
         <div className="flex flex-1 flex-col overflow-hidden">
           <OrderItemList />
         </div>
+        <CustomerCombobox customers={customers} />
         <OrderTotal />
         <div className="z-10 sticky bottom-0 left-0 right-0">
           <PayButton />

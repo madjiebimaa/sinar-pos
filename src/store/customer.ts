@@ -1,5 +1,6 @@
-import { Customer } from "@/lib/types"
 import { create } from "zustand"
+
+import { Customer } from "@/lib/types"
 
 type CustomerState = {
   selectedCustomer: Customer | null

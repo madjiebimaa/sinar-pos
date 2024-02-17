@@ -18,6 +18,7 @@ type OrderActions = {
     decreaseItemQuantity: (id: Product["id"]) => void
     changePaymentMethod: (paymentMethod: PaymentMethod) => void
     toggleNeedToBeShip: () => void
+    addShipAddress: (shipAddress: Order["shipAddress"]) => void
     reset: () => void
   }
 }
@@ -31,6 +32,7 @@ const initialState: OrderState = {
     paymentMethod: "cash",
     isNeedToBeShip: false,
     isShipped: false,
+    shipAddress: "",
     createdAt: new Date(),
     customer: null,
   },
@@ -113,6 +115,8 @@ const orderStore = create<OrderState & OrderActions>()(
               isNeedToBeShip: !state.order.isNeedToBeShip,
             },
           })),
+        addShipAddress: (shipAddress) =>
+          set((state) => ({ order: { ...state.order, shipAddress } })),
         reset: () => set(() => ({ ...initialState })),
       },
     }),
