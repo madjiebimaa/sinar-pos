@@ -17,6 +17,7 @@ import { redirect } from "next/navigation"
 import { getCustomerById } from "@/actions/customer"
 import { getProductById } from "@/actions/product"
 import { db } from "@/lib/firebase"
+import { AddOrderParams } from "@/lib/params"
 import { Customer, Order, OrderItem, OrderSnapshot } from "@/lib/types"
 
 export async function getOrderCount(): Promise<number> {
@@ -26,21 +27,22 @@ export async function getOrderCount(): Promise<number> {
   return count
 }
 
-export async function addOrder(order: Order): Promise<void> {
-  const items = order.items.map((item) => ({
+export async function addOrder(params: AddOrderParams): Promise<void> {
+  const items = params.items.map((item) => ({
     id: item.id,
     quantity: item.quantity,
   }))
+  
   await addDoc(collection(db, "orders"), {
-    visualId: order.visualId,
-    paymentMethod: order.paymentMethod,
-    isNeedToBeShip: order.isNeedToBeShip,
-    isShipped: order.isShipped,
-    shipTransportation: order.shipTransportation,
-    shipAddress: order.shipAddress,
+    visualId: params.visualId,
+    paymentMethod: params.paymentMethod,
+    isNeedToBeShip: params.isNeedToBeShip,
+    isShipped: params.isShipped,
+    shipTransportation: params.shipTransportation,
+    shipAddress: params.shipAddress,
     createdAt: new Date(),
     items,
-    customerId: order.customer ? order.customer.id : null,
+    customerId: params.customer ? params.customer.id : null,
   })
 
   revalidatePath("/orders")
@@ -70,7 +72,7 @@ export async function getOrders(): Promise<Order[]> {
             id: product.id,
             name: product.name,
             price: product.price,
-            categoryId: product.category.id,
+            category: product.category,
             quantity: item.quantity,
           }
 

@@ -14,11 +14,7 @@ export type Product = {
   category: Category
 }
 
-export type OrderItem = {
-  id: Product["id"]
-  name: Product["name"]
-  price: Product["price"]
-  categoryId: Product["category"]["id"]
+export type OrderItem = Product & {
   quantity: number
 }
 
@@ -50,11 +46,13 @@ export type ProductSnapshot = Omit<Product, "category"> & {
   categoryId: Product["category"]["id"]
 }
 
+export type OrderItemSnapshot = {
+  id: OrderItem["id"]
+  quantity: OrderItem["quantity"]
+}
+
 export type OrderSnapshot = Omit<Order, "items" | "customer" | "createdAt"> & {
-  items: {
-    id: OrderItem["id"]
-    quantity: OrderItem["quantity"]
-  }[]
+  items: OrderItemSnapshot[]
   customerId: Customer["id"]
   createdAt: Timestamp
 }

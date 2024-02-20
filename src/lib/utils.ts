@@ -76,7 +76,7 @@ export function getCategoryItemsTotal(
   id: Category["id"]
 ): number {
   return items.reduce((accumulator, item) => {
-    if (item.categoryId === id) {
+    if (item.category.id === id) {
       return accumulator + item.quantity
     }
 
@@ -86,18 +86,26 @@ export function getCategoryItemsTotal(
 
 export function getCategoriesItemsTotal(
   items: Order["items"]
-): { id: Category["id"]; total: number }[] {
+): (Category & { total: number })[] {
   const map = new Map<Category["id"], number>()
   for (const item of items) {
     map.set(
-      item.categoryId,
-      map.has(item.categoryId)
-        ? map.get(item.categoryId)! + item.quantity
+      item.category.id,
+      map.has(item.category.id)
+        ? map.get(item.category.id)! + item.quantity
         : item.quantity
     )
   }
 
-  return Array.from(map, ([id, total]) => ({ id, total }))
+  return Array.from(map, ([id, total]) => {
+    const item = items.find((item) => item.category.id === id)!
+    const categoryWithTotal: Category & { total: number } = {
+      ...item.category,
+      total,
+    }
+
+    return categoryWithTotal
+  })
 }
 
 export function getOrderTotal(items: Order["items"]): number {

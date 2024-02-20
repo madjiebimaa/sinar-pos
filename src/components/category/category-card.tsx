@@ -1,5 +1,6 @@
 "use client"
 
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useMemo } from "react"
 
 import { Card, CardContent } from "@/components/ui/card"
@@ -7,7 +8,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Category } from "@/lib/types"
 import { cn, getCategoryIcon, getCategoryItemsTotal } from "@/lib/utils"
 import { useOrder } from "@/store/order"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 interface CategoryCardProps {
   category: Category

@@ -1,7 +1,10 @@
 "use client"
 
+import { useDebouncedCallback } from "use-debounce"
+
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+
 import { useOrderActions } from "@/store/order"
 
 interface ShipAddressTextAreaProps {
@@ -13,6 +16,10 @@ export default function ShipAddressTextArea({
 }: ShipAddressTextAreaProps) {
   const orderActions = useOrderActions()
 
+  const setShipAddress = useDebouncedCallback((shipAddress: string) => {
+    orderActions.addShipAddress(shipAddress)
+  }, 300)
+
   return (
     <div className="flex flex-col gap-1">
       <Label htmlFor="shipAddress">Ship Address</Label>
@@ -20,8 +27,8 @@ export default function ShipAddressTextArea({
         id="shipAddress"
         placeholder="Type your ship address here."
         className="text-woodsmoke"
-        value={shipAddress}
-        onChange={(event) => orderActions.addShipAddress(event.target.value)}
+        defaultValue={shipAddress}
+        onChange={(event) => setShipAddress(event.target.value)}
       />
     </div>
   )

@@ -10,7 +10,7 @@ export default function OrderItemList() {
   return (
     <section className="flex flex-col gap-2 overflow-y-auto">
       {order.items.map((item, index) => (
-        <OrderItemCard key={item.id} item={item} order={index + 1} />
+        <OrderItemCard key={item.id} item={item} serialNumber={index + 1} />
       ))}
     </section>
   )

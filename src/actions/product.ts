@@ -14,6 +14,7 @@ import {
 
 import { getCategoryById, getCategoryByName } from "@/actions/category"
 import { db } from "@/lib/firebase"
+import { GetProductsParams } from "@/lib/params"
 import { Product, ProductSnapshot } from "@/lib/types"
 
 export async function getProductById(id: Product["id"]): Promise<Product> {
@@ -37,7 +38,7 @@ export async function getProductById(id: Product["id"]): Promise<Product> {
 
 async function applyFilters(
   q: Query<DocumentData, DocumentData>,
-  { name, category }: { name?: string; category?: string }
+  { name, category }: GetProductsParams
 ) {
   if (name) {
     q = query(
@@ -55,12 +56,11 @@ async function applyFilters(
   return q
 }
 
-export async function getProducts(filters: {
-  name?: string
-  category?: string
-}): Promise<Product[]> {
+export async function getProducts(
+  params: GetProductsParams
+): Promise<Product[]> {
   let q = query(collection(db, "products"), orderBy("queryName", "asc"))
-  q = await applyFilters(q, filters)
+  q = await applyFilters(q, params)
   const querySnapshot = await getDocs(q)
 
   return Promise.all(

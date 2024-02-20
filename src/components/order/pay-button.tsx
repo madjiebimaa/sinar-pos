@@ -27,6 +27,7 @@ export default function PayButton() {
         visualId: orderVisualId!,
         customer: selectedCustomer,
       })
+      
       orderActions.reset()
       customerActions.reset()
       orderActions.createOrderVisualId()

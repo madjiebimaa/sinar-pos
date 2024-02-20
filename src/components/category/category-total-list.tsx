@@ -1,17 +1,17 @@
+import { useMemo } from "react"
+
 import CategoryTotalBadge from "@/components/category/category-total-badge"
 
-import { Category } from "@/lib/types"
+import { Order } from "@/lib/types"
+import { getCategoriesItemsTotal } from "@/lib/utils"
 
 interface CategoryTotalListProps {
-  categories: {
-    id: Category["id"]
-    total: number
-  }[]
+  items: Order["items"]
 }
 
-export default function CategoryTotalList({
-  categories,
-}: CategoryTotalListProps) {
+export default function CategoryTotalList({ items }: CategoryTotalListProps) {
+  const categories = useMemo(() => getCategoriesItemsTotal(items), [items])
+
   return (
     <section className="flex flex-wrap items-center gap-2">
       {categories.map((category) => (

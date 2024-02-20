@@ -1,13 +1,12 @@
 import { create } from "zustand"
 import { createJSONStorage, persist } from "zustand/middleware"
-import { ShipTransportation } from "./../lib/types"
 
 import { getOrderCount } from "@/actions/order"
-import { Order, PaymentMethod, Product } from "@/lib/types"
+import { Order, PaymentMethod, Product, ShipTransportation } from "@/lib/types"
 
 type OrderState = {
   orderVisualId: number
-  order: Order
+  order: Omit<Order, "id" | "visualId" | "customer" | "createdAt">
 }
 
 type OrderActions = {
@@ -28,16 +27,12 @@ type OrderActions = {
 const initialState: OrderState = {
   orderVisualId: 0,
   order: {
-    id: crypto.randomUUID(),
-    visualId: 0,
-    items: [],
     paymentMethod: "cash",
     isNeedToBeShip: false,
     isShipped: false,
     shipAddress: "",
     shipTransportation: "car",
-    createdAt: new Date(),
-    customer: null,
+    items: [],
   },
 }
 
@@ -65,7 +60,7 @@ const orderStore = create<OrderState & OrderActions>()(
                   name: item.name,
                   price: item.price,
                   quantity: 1,
-                  categoryId: item.category.id,
+                  category: item.category,
                 },
               ],
             },

@@ -1,6 +1,7 @@
-import { Toaster as Sonner } from "@/components/ui/sonner"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+
+import { Toaster as Sonner } from "@/components/ui/sonner"
 
 import "./globals.css"
 
