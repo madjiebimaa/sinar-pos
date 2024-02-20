@@ -1,7 +1,10 @@
 import { clsx, type ClassValue } from "clsx"
 import {
+  Bike,
   Bolt,
   BrickWall,
+  Bus,
+  Car,
   CircleDollarSign,
   CreditCard,
   Cuboid,
@@ -10,6 +13,7 @@ import {
   LucideIcon,
   PaintRoller,
   QrCode,
+  Truck,
   Zap,
 } from "lucide-react"
 import { twMerge } from "tailwind-merge"
@@ -49,6 +53,21 @@ export function getOrderPaymentMethodIcon(
       return CreditCard
     case "e-wallet":
       return QrCode
+  }
+}
+
+export function getShipTransportationIcon(
+  shipTransportation: Order["shipTransportation"]
+): LucideIcon {
+  switch (shipTransportation) {
+    case "motorcycle":
+      return Bike
+    case "car":
+      return Car
+    case "bus":
+      return Bus
+    case "truck":
+      return Truck
   }
 }
 

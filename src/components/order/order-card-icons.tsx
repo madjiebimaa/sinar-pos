@@ -1,7 +1,10 @@
-import { LucideIcon, Truck } from "lucide-react"
+import { LucideIcon } from "lucide-react"
 
 import { Order } from "@/lib/types"
-import { getOrderPaymentMethodIcon } from "@/lib/utils"
+import {
+  getOrderPaymentMethodIcon,
+  getShipTransportationIcon,
+} from "@/lib/utils"
 
 interface OrderCardIconsProps {
   order: Order
@@ -14,7 +17,7 @@ export default function OrderCardIcons({ order }: OrderCardIconsProps) {
       isVisible: true,
     },
     {
-      icon: Truck,
+      icon: getShipTransportationIcon(order.shipTransportation),
       isVisible: order.isNeedToBeShip,
     },
   ]

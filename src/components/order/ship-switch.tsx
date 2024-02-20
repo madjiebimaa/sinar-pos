@@ -1,6 +1,6 @@
 "use client"
 
-import { Truck } from "lucide-react"
+import { Ship } from "lucide-react"
 
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
@@ -23,7 +23,7 @@ export default function ShipSwitch({ isNeedToBeShip }: ShipSwitchProps) {
         onCheckedChange={() => orderActions.toggleNeedToBeShip()}
       />
       <Label htmlFor="isNeedToBeShip">
-        <Truck className="shrink-0 h-6 w-6" />
+        <Ship className="shrink-0 h-6 w-6" />
       </Label>
     </div>
   )

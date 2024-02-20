@@ -1,5 +1,6 @@
 import { create } from "zustand"
 import { createJSONStorage, persist } from "zustand/middleware"
+import { ShipTransportation } from "./../lib/types"
 
 import { getOrderCount } from "@/actions/order"
 import { Order, PaymentMethod, Product } from "@/lib/types"
@@ -19,6 +20,7 @@ type OrderActions = {
     changePaymentMethod: (paymentMethod: PaymentMethod) => void
     toggleNeedToBeShip: () => void
     addShipAddress: (shipAddress: Order["shipAddress"]) => void
+    changeShipTransportation: (shipTransportation: ShipTransportation) => void
     reset: () => void
   }
 }
@@ -33,6 +35,7 @@ const initialState: OrderState = {
     isNeedToBeShip: false,
     isShipped: false,
     shipAddress: "",
+    shipTransportation: "car",
     createdAt: new Date(),
     customer: null,
   },
@@ -117,6 +120,8 @@ const orderStore = create<OrderState & OrderActions>()(
           })),
         addShipAddress: (shipAddress) =>
           set((state) => ({ order: { ...state.order, shipAddress } })),
+        changeShipTransportation: (shipTransportation) =>
+          set((state) => ({ order: { ...state.order, shipTransportation } })),
         reset: () => set(() => ({ ...initialState })),
       },
     }),

@@ -28,6 +28,7 @@ export type Customer = {
 }
 
 export type PaymentMethod = "cash" | "debit card" | "e-wallet"
+export type ShipTransportation = "motorcycle" | "car" | "bus" | "truck"
 
 export type Order = {
   id: string
@@ -36,6 +37,7 @@ export type Order = {
   isNeedToBeShip: boolean
   isShipped: boolean
   shipAddress: string
+  shipTransportation: ShipTransportation
   createdAt: Date
 
   items: OrderItem[]

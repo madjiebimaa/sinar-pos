@@ -1,30 +1,17 @@
 "use client"
 
-import { CircleDollarSign, CreditCard, LucideIcon, QrCode } from "lucide-react"
 import { useMemo } from "react"
 
-import PaymentMethodButton from "@/components/order/payment-method-button"
+import PaymentMethodOptions from "@/components/order/payment-method-options"
+import ShipAddressTextArea from "@/components/order/ship-address-text-area"
 import ShipSwitch from "@/components/order/ship-switch"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import ShipTransportationOptions from "@/components/order/ship-transportation-options"
 
-import { PaymentMethod } from "@/lib/types"
 import { getOrderTotal, rupiah } from "@/lib/utils"
-import { useOrder, useOrderActions } from "@/store/order"
-
-const paymentMethods: {
-  value: PaymentMethod
-  label: string
-  icon: LucideIcon
-}[] = [
-  { value: "cash", label: "Cash", icon: CircleDollarSign },
-  { value: "debit card", label: "Debit Card", icon: CreditCard },
-  { value: "e-wallet", label: "E-Wallet", icon: QrCode },
-]
+import { useOrder } from "@/store/order"
 
 export default function OrderTotal() {
   const order = useOrder()
-  const orderActions = useOrderActions()
   const total = useMemo(() => getOrderTotal(order.items), [order.items])
 
   return (
@@ -33,28 +20,12 @@ export default function OrderTotal() {
         <p>Total</p>
         <span className="font-semibold">{total !== 0 && rupiah(total)}</span>
       </div>
-      <ShipSwitch isNeedToBeShip={order.isNeedToBeShip} />
-      <div className="flex flex-col gap-1">
-        <Label htmlFor="shipAddress">Ship ADdress</Label>
-        <Textarea
-          id="shipAddress"
-          placeholder="Type your ship address here."
-          className="text-woodsmoke"
-          value={order.shipAddress}
-          onChange={(event) => orderActions.addShipAddress(event.target.value)}
-        />
+      <div className="flex justify-between items-center">
+        <ShipSwitch isNeedToBeShip={order.isNeedToBeShip} />
+        {order.isNeedToBeShip && <ShipTransportationOptions />}
       </div>
-      <section className="flex flex-col gap-2">
-        <p className="text-sm text-silver-chalice">Payment Method</p>
-        <section className="grid grid-cols-3 gap-2">
-          {paymentMethods.map((paymentMethod) => (
-            <PaymentMethodButton
-              key={paymentMethod.value}
-              paymentMethod={paymentMethod}
-            />
-          ))}
-        </section>
-      </section>
+      <ShipAddressTextArea shipAddress={order.shipAddress} />
+      <PaymentMethodOptions />
     </section>
   )
 }
